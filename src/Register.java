@@ -8,7 +8,9 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+import javax.swing.Box;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -56,6 +58,23 @@ public class Register {
 					frame.getContentPane().add(lblUsername_1_1);
 
 					JButton btnCreate = new JButton("Create");
+					
+					btnCreate.setBounds(172, 159, 114, 25);
+					frame.getContentPane().add(btnCreate);
+
+					txtPwd = new JPasswordField();
+					txtPwd.setBounds(200, 70, 124, 19);
+					frame.getContentPane().add(txtPwd);
+
+					txtPwd1 = new JPasswordField();
+					txtPwd1.setBounds(200, 99, 124, 19);
+					frame.getContentPane().add(txtPwd1);
+					
+					JCheckBox checkAdmin = new JCheckBox("Administrator");
+					checkAdmin.setBounds(200, 128, 126, 23);
+					frame.getContentPane().add(checkAdmin);
+					frame.setVisible(true);
+					
 					btnCreate.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent arg0) {
 							String usr = txtUser.getText().toString();
@@ -72,47 +91,63 @@ public class Register {
 								JOptionPane.showMessageDialog(frame, "Please use at least 6 characters", "InfoBox: Registration", JOptionPane.INFORMATION_MESSAGE);
 							}
 							else {
-								MessageDigest md5 = null;
-								try {
-									md5 = MessageDigest.getInstance("MD5");
-								} catch (NoSuchAlgorithmException e1) {
-									e1.printStackTrace();
-								}
-								md5.update(StandardCharsets.UTF_8.encode(pwd));
-								String pwd2 = String.format("%032x", new BigInteger(1, md5.digest()));
-								String toPass = "http://oscarmeanwell.me:3001/create?usr=" + usr + "&pwd=" + pwd2;
-								try {
-									JSONObject json = new JSONObject(IOUtils.toString(new URL(toPass), Charset.forName("UTF-8")));
-									if(Integer.parseInt(json.get("status").toString()) == 1) {
-										JOptionPane.showMessageDialog(frame, "Success! Please login", "InfoBox: Registration", JOptionPane.INFORMATION_MESSAGE);
-										frame.setVisible(false);
-										Welcome window = new Welcome();
-										window.txtUser.setText(usr);
-										window.frame.setVisible(true);
-										window.frame.requestFocusInWindow();
-										
-									}
-									else if(Integer.parseInt(json.get("status").toString()) == 100) {
-										JOptionPane.showMessageDialog(frame, "Please try a different username, that ones exists", "InfoBox: Registration", JOptionPane.INFORMATION_MESSAGE);
-									}
+								Boolean flag = false;
+								 Boolean admin = false;
+								if(checkAdmin.isSelected()) {
+									//String input = JOptionPane.showInputDialog("Please input the Administrator password");
+									//System.out.println(input);
+									JPasswordField adminPassword = new JPasswordField(10);
+								    JLabel lblAdmin = new JLabel("Enter Admin Password: ");
+								    Box box = Box.createHorizontalBox();
+								    box.add(lblAdmin);
+								    box.add(adminPassword);
+								    int x = JOptionPane.showConfirmDialog(null, box, "Admin?", JOptionPane.OK_CANCEL_OPTION);
 
-								} catch (Exception e) {
-									e.printStackTrace();
-								} 
+								    if (x == JOptionPane.OK_OPTION) {
+								    	if(String.valueOf(adminPassword.getPassword()).equals("napierrules")){
+								    		//Then Admin
+								    		admin = true;
+								    	}
+								    	else {
+								    		flag = true;
+								    		JOptionPane.showMessageDialog(frame, "Admin authentification failed, no account created", "InfoBox: Registration", JOptionPane.INFORMATION_MESSAGE);
+								    	}
+								    }
+								    
+								}
+								if(!flag) {
+									MessageDigest md5 = null;
+									try {
+										md5 = MessageDigest.getInstance("MD5");
+									} catch (NoSuchAlgorithmException e1) {
+										e1.printStackTrace();
+									}
+									md5.update(StandardCharsets.UTF_8.encode(pwd));
+									String pwd2 = String.format("%032x", new BigInteger(1, md5.digest()));
+									String toPass = "http://oscarmeanwell.me:3001/create?usr=" + usr + "&pwd=" + pwd2 + "&admin=" + Boolean.toString(admin);
+									try {
+										JSONObject json = new JSONObject(IOUtils.toString(new URL(toPass), Charset.forName("UTF-8")));
+										if(Integer.parseInt(json.get("status").toString()) == 1) {
+											JOptionPane.showMessageDialog(frame, "Success! Please login", "InfoBox: Registration", JOptionPane.INFORMATION_MESSAGE);
+											frame.setVisible(false);
+											Welcome window = new Welcome();
+											window.txtUser.setText(usr);
+											window.frame.setVisible(true);
+											window.frame.requestFocusInWindow();
+											
+										}
+										else if(Integer.parseInt(json.get("status").toString()) == 100) {
+											JOptionPane.showMessageDialog(frame, "Please try a different username, that ones exists", "InfoBox: Registration", JOptionPane.INFORMATION_MESSAGE);
+										}
+
+									} catch (Exception e) {
+										e.printStackTrace();
+									}
+								}
 							}
 						}
 					});
-					btnCreate.setBounds(172, 159, 114, 25);
-					frame.getContentPane().add(btnCreate);
-
-					txtPwd = new JPasswordField();
-					txtPwd.setBounds(200, 70, 124, 19);
-					frame.getContentPane().add(txtPwd);
-
-					txtPwd1 = new JPasswordField();
-					txtPwd1.setBounds(200, 99, 124, 19);
-					frame.getContentPane().add(txtPwd1);
-					frame.setVisible(true);
+					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
