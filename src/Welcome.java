@@ -101,6 +101,9 @@ public class Welcome {
 					if(Integer.parseInt(json.get("status").toString()) == 1) {
 						System.out.println("LOGIN");
 					}
+					else if(Integer.parseInt(json.get("status").toString()) == 3) {
+						System.out.println("ADMIN");
+					}
 					else {
 						JOptionPane.showMessageDialog(frame, "Authentification error", "InfoBox: Registration", JOptionPane.INFORMATION_MESSAGE);
 					}
