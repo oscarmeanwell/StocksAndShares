@@ -11,8 +11,8 @@ import java.awt.event.ActionEvent;
 
 public class Welcome {
 
-	private JFrame frame;
-	private JTextField txtUser;
+	public JFrame frame;
+	public JTextField txtUser;
 	private JTextField txtPassword;
 
 	/**
