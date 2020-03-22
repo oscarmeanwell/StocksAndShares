@@ -103,6 +103,9 @@ public class Welcome {
 		btnRegister.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				//Here they want to register
+				frame.setVisible(false);
+				Register window = new Register();
+				
 			}
 		});
 		btnRegister.setBounds(12, 235, 114, 25);
