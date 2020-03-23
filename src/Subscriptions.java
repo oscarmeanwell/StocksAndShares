@@ -8,11 +8,10 @@ import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JTextArea;
-
-
 import javax.swing.JList;
 import javax.swing.JScrollPane;
+import javax.swing.ListSelectionModel;
+import javax.swing.JButton;
 
 public class Subscriptions {
 
@@ -53,11 +52,20 @@ public class Subscriptions {
 				
 				ArrayList<String> newA = new ArrayList<>();
 				JList list_1 = new JList(newA.toArray(a));
+				list_1.setSelectionMode(
+	                    ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+				int [] selected = {1,2,3};
+				list_1.setSelectedIndices(selected);
+
 				
 				list_1.setBounds(12, 253, 426, -189);
 				JScrollPane pane = new JScrollPane(list_1);
-				pane.setBounds(0, 39, 450, 233);
+				pane.setBounds(0, 39, 450, 186);
 				frame.getContentPane().add(pane);
+				
+				JButton btnSubmit = new JButton("Confirm");
+				btnSubmit.setBounds(168, 235, 114, 25);
+				frame.getContentPane().add(btnSubmit);
 				frame.setVisible(true);
 
 
