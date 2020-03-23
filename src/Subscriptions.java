@@ -68,7 +68,7 @@ public class Subscriptions {
 				
 
 				try {
-					MainScreen.USERNAME = "Simon"; //debug
+					//MainScreen.USERNAME = "Simon"; //debug
 					JSONObject json = new JSONObject(IOUtils.toString(new URL("http://oscarmeanwell.me:3001/getSubs?usr="+MainScreen.USERNAME), Charset.forName("UTF-8")));
 					String[] toFind = ((JSONObject)json.get("values")).get("subs").toString().split(",");
 					int count = 0;
@@ -81,6 +81,7 @@ public class Subscriptions {
 				}
 				list_1.setSelectedIndices(selected);
 				list_1.setBounds(12, 253, 426, -189);
+			
 				JScrollPane pane = new JScrollPane(list_1);
 				pane.setBounds(0, 39, 450, 186);
 				frame.getContentPane().add(pane);
@@ -98,8 +99,10 @@ public class Subscriptions {
 						buildString = buildString.substring(0, buildString.length()-1);
 						try {
 							JSONObject json = new JSONObject(IOUtils.toString(new URL("http://oscarmeanwell.me:3001/saveSubs?usr=" + MainScreen.USERNAME + "&subs=" + buildString), Charset.forName("UTF-8")));
+							frame.setVisible(false);
 						} catch (Exception e) {
 							e.printStackTrace();
+							
 						} 
 					}
 				});
