@@ -1,5 +1,6 @@
 import java.awt.EventQueue;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
@@ -19,6 +20,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class Subscriptions {
 
@@ -83,6 +86,23 @@ public class Subscriptions {
 				frame.getContentPane().add(pane);
 				
 				JButton btnSubmit = new JButton("Confirm");
+				btnSubmit.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+						List<String> selectedItems = list_1.getSelectedValuesList();
+						String buildString = "";
+						for(String tmp2 : selectedItems) {
+							if(tmp2 != null) {
+								buildString += tmp2 + ",";
+							}
+						}
+						buildString = buildString.substring(0, buildString.length()-1);
+						try {
+							JSONObject json = new JSONObject(IOUtils.toString(new URL("http://oscarmeanwell.me:3001/saveSubs?usr=" + MainScreen.USERNAME + "&subs=" + buildString), Charset.forName("UTF-8")));
+						} catch (Exception e) {
+							e.printStackTrace();
+						} 
+					}
+				});
 				btnSubmit.setBounds(168, 235, 114, 25);
 				frame.getContentPane().add(btnSubmit);
 				frame.setVisible(true);
