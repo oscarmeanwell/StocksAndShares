@@ -13,7 +13,7 @@ public class MainScreen {
 
 	public JFrame frame = null;
 	private JTable table;
-
+	public static String USERNAME = "";
 
 	public MainScreen() {
 		EventQueue.invokeLater(new Runnable() {
@@ -54,7 +54,7 @@ public class MainScreen {
 				i1.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
 						//Lets manage subscriptions
-						
+						Subscriptions subs = new Subscriptions();
 					}
 				});
 				subBar.add(i1);

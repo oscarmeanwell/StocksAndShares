@@ -1,5 +1,7 @@
 import java.awt.EventQueue;
 import java.io.IOException;
+import java.net.URL;
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -11,6 +13,11 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
+
+import org.apache.commons.io.IOUtils;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import javax.swing.JButton;
 
 public class Subscriptions {
@@ -54,10 +61,22 @@ public class Subscriptions {
 				JList list_1 = new JList(newA.toArray(a));
 				list_1.setSelectionMode(
 	                    ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-				int [] selected = {1,2,3};
-				list_1.setSelectedIndices(selected);
-
+				int [] selected = new int[1000];
 				
+
+				try {
+					MainScreen.USERNAME = "Simon"; //debug
+					JSONObject json = new JSONObject(IOUtils.toString(new URL("http://oscarmeanwell.me:3001/getSubs?usr="+MainScreen.USERNAME), Charset.forName("UTF-8")));
+					String[] toFind = ((JSONObject)json.get("values")).get("subs").toString().split(",");
+					int count = 0;
+					for(String tmp : toFind) {
+						selected[count] = list.indexOf(tmp);
+						count++;
+					}
+				} catch (JSONException | IOException e) {
+					e.printStackTrace();
+				}
+				list_1.setSelectedIndices(selected);
 				list_1.setBounds(12, 253, 426, -189);
 				JScrollPane pane = new JScrollPane(list_1);
 				pane.setBounds(0, 39, 450, 186);

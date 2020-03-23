@@ -105,7 +105,7 @@ public class Welcome {
 					else if(Integer.parseInt(json.get("status").toString()) == 3) {
 						System.out.println("ADMIN");
 						MainScreen window = new MainScreen();
-						
+						MainScreen.USERNAME = usr;
 					}
 					else {
 						JOptionPane.showMessageDialog(frame, "Authentification error", "InfoBox: Registration", JOptionPane.INFORMATION_MESSAGE);
