@@ -100,9 +100,12 @@ public class Welcome {
 					JSONObject json = new JSONObject(IOUtils.toString(new URL(toPass), Charset.forName("UTF-8")));
 					if(Integer.parseInt(json.get("status").toString()) == 1) {
 						System.out.println("LOGIN");
+						;
 					}
 					else if(Integer.parseInt(json.get("status").toString()) == 3) {
 						System.out.println("ADMIN");
+						MainScreen window = new MainScreen();
+						
 					}
 					else {
 						JOptionPane.showMessageDialog(frame, "Authentification error", "InfoBox: Registration", JOptionPane.INFORMATION_MESSAGE);
