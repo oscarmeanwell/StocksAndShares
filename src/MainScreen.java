@@ -1,11 +1,13 @@
 import java.awt.EventQueue;
-import java.awt.ScrollPane;
-import java.awt.Scrollbar;
 
 import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JScrollBar;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class MainScreen {
 
@@ -45,6 +47,19 @@ public class MainScreen {
 				table.setBounds(12, 266, 428, -248);
 				table.setVisible(true);
 				frame.getContentPane().add(new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS));
+				
+				JMenuBar menuBar = new JMenuBar();
+				JMenu subBar = new JMenu("Manage");
+				JMenuItem i1 = new JMenuItem("Subscriptions");
+				i1.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+						//Lets manage subscriptions
+						
+					}
+				});
+				subBar.add(i1);
+				menuBar.add(subBar);
+				frame.setJMenuBar(menuBar);
 				frame.setVisible(true);
 				//frame.pack();
 
