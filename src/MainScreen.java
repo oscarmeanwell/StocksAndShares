@@ -18,6 +18,8 @@ import org.json.JSONObject;
 import com.sun.tools.javac.Main;
 
 import javax.swing.JLabel;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class MainScreen {
 
@@ -63,6 +65,7 @@ public class MainScreen {
 				frame.getContentPane().add(lblNewLabel);
 				
 				JMenuBar menuBar = new JMenuBar();
+				
 				JMenu subBar = new JMenu("Manage");
 				JMenuItem i1 = new JMenuItem("Subscriptions");
 				i1.addActionListener(new ActionListener() {
@@ -74,6 +77,15 @@ public class MainScreen {
 				});
 				subBar.add(i1);
 				menuBar.add(subBar);
+				JMenuItem menuItem = new JMenuItem("News");
+				menuItem.addMouseListener(new MouseAdapter() {
+					@Override
+					public void mouseClicked(MouseEvent e) {
+						System.out.println("OK");
+						News news = new News();
+					}
+				});
+				menuBar.add(menuItem);
 				frame.setJMenuBar(menuBar);
 				frame.setVisible(true);
 				//frame.pack();

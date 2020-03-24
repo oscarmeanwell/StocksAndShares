@@ -85,6 +85,7 @@ public class Subscriptions {
 				JScrollPane pane = new JScrollPane(list_1);
 				pane.setBounds(0, 39, 450, 186);
 				frame.getContentPane().add(pane);
+				frame.setDefaultCloseOperation(0);
 				
 				JButton btnSubmit = new JButton("Confirm");
 				btnSubmit.addActionListener(new ActionListener() {
