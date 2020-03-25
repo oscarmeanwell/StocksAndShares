@@ -54,16 +54,22 @@ public class MaxMin {
 				String jsonLevels;
 				try {
 					jsonSubs = ((JSONObject)new JSONObject(IOUtils.toString(new URL("http://oscarmeanwell.me:3001/getSubs?usr="+MainScreen.USERNAME), Charset.forName("UTF-8"))).get("values")).get("subs").toString();
-					jsonLevels = ((JSONObject) new JSONObject(IOUtils.toString(new URL("http://oscarmeanwell.me:3001/getMaxMin?usr=" +MainScreen.USERNAME), Charset.forName("UTF-8"))).get("values")).get("levels").toString();
-					System.out.println(jsonLevels);
-					String[] levelsFormat = jsonLevels.split(",");
-					for(String tf : levelsFormat) {
-						String [] y = tf.split(":");
-						HashMap<String, Double> toAdd = new HashMap<>();
-						toAdd.put("min", Double.parseDouble(y[1]));
-						toAdd.put("max", Double.parseDouble(y[2]));
-						hashmaxMin.put(y[0], toAdd);
+					try {
+						jsonLevels = ((JSONObject) new JSONObject(IOUtils.toString(new URL("http://oscarmeanwell.me:3001/getMaxMin?usr=" +MainScreen.USERNAME), Charset.forName("UTF-8"))).get("values")).get("levels").toString();
+						System.out.println(jsonLevels);
+						String[] levelsFormat = jsonLevels.split(",");
+						for(String tf : levelsFormat) {
+							String [] y = tf.split(":");
+							HashMap<String, Double> toAdd = new HashMap<>();
+							toAdd.put("min", Double.parseDouble(y[1]));
+							toAdd.put("max", Double.parseDouble(y[2]));
+							hashmaxMin.put(y[0], toAdd);
+						}
 					}
+					catch(Exception e) {
+						e.printStackTrace();
+					}
+					
 					System.out.println(jsonSubs);
 					data1 = new Object[jsonSubs.split(",").length][6];
 					int count = 0;
@@ -101,14 +107,20 @@ public class MaxMin {
 				            final String col1 = (String) model.getValueAt(i, 0);
 				            final String colMin = model.getValueAt(i, 1).toString();
 				            final String colMax = model.getValueAt(i, 2).toString();
-				            if(colMin.length()> 2 || colMax.length()>2) {
+				            if(colMin.length()>= 1 && colMax.length()>=1) {
 				            	//Then send to server
 				            	toServer += col1 + ":" + colMin + ":" + colMax + ",";
 				            }
-				            System.out.println("Row: " + i + " Col 0: " + col1);
-				            System.out.println("Row: " + i + " Col 1: " + colMin);
 				        }
+				        
 				        toServer = toServer.substring(0, toServer.length()-1);
+				        try {
+				        	JSONObject json = new JSONObject(IOUtils.toString(new URL("http://oscarmeanwell.me:3001/saveMaxMin?usr=" + MainScreen.USERNAME + "&levels=" + toServer), Charset.forName("UTF-8")));
+							frame.setVisible(false);
+				        }
+				        catch(Exception e) {
+				        	e.printStackTrace();
+				        }
 				        //Now send this to server and hide the window
 					}
 				});
