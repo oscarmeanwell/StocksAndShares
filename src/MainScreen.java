@@ -125,7 +125,6 @@ class UpdateWorker extends SwingWorker<Void, Void> {
 	@Override
 	protected Void doInBackground() throws InterruptedException{
 		
-		
 		while(true) {
 			Thread.sleep(10000);
 			String[] colNames = new String[]{"Name", "Price", "Close", "Trending", "High", "Low", "Currency"};
@@ -144,7 +143,7 @@ class UpdateWorker extends SwingWorker<Void, Void> {
 					if(tmp1.get("diff").toString().length() > 5) {
 						tmp1.put("diff", tmp1.get("diff").toString().substring(0, 5));
 					}
-					MainScreen.data1[count] = new Object[]{tmp, "TEST", tmp1.get("pc"), tmp1.get("diff").toString(), tmp1.get("h"), tmp1.get("l"), "$us"};
+					MainScreen.data1[count] = new Object[]{tmp, tmp1.get("c"), tmp1.get("pc"), tmp1.get("diff").toString(), tmp1.get("h"), tmp1.get("l"), "$us"};
 					count++;
 				}			
 				MainScreen.model.setDataVector(MainScreen.data1,colNames);	
