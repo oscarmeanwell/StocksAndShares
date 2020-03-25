@@ -1,17 +1,21 @@
 
 
 import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.HashMap;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.table.TableModel;
 
 import org.apache.commons.io.IOUtils;
 import org.json.JSONObject;
-import javax.swing.JTable;
 
 public class MaxMin {
 
@@ -83,7 +87,31 @@ public class MaxMin {
 				JScrollPane pane = new JScrollPane(table);
 				pane.setBounds(0, 39, 531, 192);
 				frame.getContentPane().add(pane);
+				
+				JButton btnConfirm = new JButton("Confirm");
+				
+				btnConfirm.setBounds(208, 235, 114, 25);
+				frame.getContentPane().add(btnConfirm);
 				frame.setVisible(true);
+				btnConfirm.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+						TableModel model = (TableModel) table.getModel();
+						String toServer = "";
+				        for (int i = 0; model.getRowCount() > i; i++) {
+				            final String col1 = (String) model.getValueAt(i, 0);
+				            final String colMin = model.getValueAt(i, 1).toString();
+				            final String colMax = model.getValueAt(i, 2).toString();
+				            if(colMin.length()> 2 || colMax.length()>2) {
+				            	//Then send to server
+				            	toServer += col1 + ":" + colMin + ":" + colMax + ",";
+				            }
+				            System.out.println("Row: " + i + " Col 0: " + col1);
+				            System.out.println("Row: " + i + " Col 1: " + colMin);
+				        }
+				        toServer = toServer.substring(0, toServer.length()-1);
+				        //Now send this to server and hide the window
+					}
+				});
 				//String[] toFind = ((JSONObject)jsonSubs.get("values")).get("subs").toString().split(",");
 			}
 		});
