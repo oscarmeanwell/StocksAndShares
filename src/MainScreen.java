@@ -1,4 +1,5 @@
 import java.awt.EventQueue;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -14,9 +15,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.SwingWorker;
-import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
 
 import org.apache.commons.io.IOUtils;
 import org.json.JSONObject;
@@ -85,14 +84,37 @@ public class MainScreen {
 				
 				JMenu subBar = new JMenu("Manage");
 				JMenuItem i1 = new JMenuItem("Subscriptions");
+				JMenuItem i2 = new JMenuItem("Alerts");
+				table.addMouseListener(new MouseAdapter() {
+				    public void mousePressed(MouseEvent mouseEvent) {
+				        JTable table =(JTable) mouseEvent.getSource();
+				        Point point = mouseEvent.getPoint();
+				        int row = table.rowAtPoint(point);
+				        
+				        
+				        //System.out.println(table.getValueAt(table.getSelectedRow(), table.getSelectedColumn()));
+				        if (mouseEvent.getClickCount() == 2) {
+				            // your valueChanged overridden method 
+				        	System.out.println(data1[row][0]);
+				        	//Now get data on this company in another window
+				        	
+				        }
+				    }
+				});
+				i2.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+						MaxMin x = new MaxMin();
+					}
+				});
 				i1.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
 						//Lets manage subscriptions
 						Subscriptions subs = new Subscriptions();
-						new UpdateWorker().execute();
+						//new UpdateWorker().execute();
 					}
 				});
 				subBar.add(i1);
+				subBar.add(i2);
 				menuBar.add(subBar);
 				JMenuItem menuItem = new JMenuItem("News");
 				menuItem.addMouseListener(new MouseAdapter() {

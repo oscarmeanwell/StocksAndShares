@@ -107,7 +107,7 @@ public class MaxMin {
 				            final String col1 = (String) model.getValueAt(i, 0);
 				            final String colMin = model.getValueAt(i, 1).toString();
 				            final String colMax = model.getValueAt(i, 2).toString();
-				            if(colMin.length()>= 1 && colMax.length()>=1) {
+				            if(colMin.length()> 1 && colMax.length()>1) {
 				            	//Then send to server
 				            	toServer += col1 + ":" + colMin + ":" + colMax + ",";
 				            }
@@ -115,8 +115,11 @@ public class MaxMin {
 				        
 				        toServer = toServer.substring(0, toServer.length()-1);
 				        try {
-				        	JSONObject json = new JSONObject(IOUtils.toString(new URL("http://oscarmeanwell.me:3001/saveMaxMin?usr=" + MainScreen.USERNAME + "&levels=" + toServer), Charset.forName("UTF-8")));
-							frame.setVisible(false);
+				        	if(toServer.length()>5) {
+				        		System.out.println("HERE TO " + toServer);
+				        		JSONObject json = new JSONObject(IOUtils.toString(new URL("http://oscarmeanwell.me:3001/saveMaxMin?usr=" + MainScreen.USERNAME + "&levels=" + toServer), Charset.forName("UTF-8")));
+								frame.setVisible(false);
+				        	}
 				        }
 				        catch(Exception e) {
 				        	e.printStackTrace();
