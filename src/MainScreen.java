@@ -25,8 +25,12 @@ public class MainScreen {
 
 	public static JFrame frame = null;
 	private JTable table;
-	public static String USERNAME = "";
+	public static String USERNAME = "Simon";
 	public static JLabel lblNewLabel = null;
+	
+	public static void main(String[] args) {
+		MainScreen x = new MainScreen();
+	}
 
 	public MainScreen() {
 		EventQueue.invokeLater(new Runnable() {
@@ -39,10 +43,18 @@ public class MainScreen {
 				try {
 					JSONObject json = new JSONObject(IOUtils.toString(new URL("http://oscarmeanwell.me:3001/getSubs?usr="+MainScreen.USERNAME), Charset.forName("UTF-8")));
 					String[] toFind = ((JSONObject)json.get("values")).get("subs").toString().split(",");
+					
 					data1 = new Object[toFind.length][6];
 					int count = 0;
+					String toPass = ((JSONObject)json.get("values")).get("subs").toString();
+					JSONObject jsonStocks = new JSONObject(IOUtils.toString(new URL("http://oscarmeanwell.me/stocks.php?sym=" +toPass), Charset.forName("UTF-8")));
 					for(String tmp : toFind) {
-						data1[count] = new Object[]{tmp, "2", "3", "4", "5", "6"};
+						JSONObject tmp1 = ((JSONObject)jsonStocks.get(tmp));
+						//System.out.println(((JSONObject)jsonStocks.get(tmp)).get("c"));
+						if(tmp1.get("diff").toString().length() > 5) {
+							tmp1.put("diff", tmp1.get("diff").toString().substring(0, 5));
+						}
+						data1[count] = new Object[]{tmp, tmp1.get("c"), tmp1.get("pc"), tmp1.get("diff").toString(), tmp1.get("h"), tmp1.get("l"), "$us"};
 						count++;
 					}
 				}
@@ -50,7 +62,7 @@ public class MainScreen {
 					e.printStackTrace();
 				}
 				
-				String[] colNames = new String[]{"Name", "Price", "Trending", "High", "Low", "Currency"};
+				String[] colNames = new String[]{"Name", "Price", "Close", "Trending", "High", "Low", "Currency"};
 				table = new JTable(data1, colNames);
 				table.setBounds(12, 266, 428, -248);
 				table.setVisible(true);

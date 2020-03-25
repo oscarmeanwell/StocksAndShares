@@ -1,11 +1,12 @@
 import java.awt.Color;
 import java.awt.Desktop;
 import java.awt.EventQueue;
+import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.IOException;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.text.SimpleDateFormat;
@@ -13,6 +14,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -24,9 +27,6 @@ import javax.swing.event.ListSelectionListener;
 import org.apache.commons.io.IOUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 
 public class News {
@@ -40,9 +40,9 @@ public class News {
 	JList lstNews = null;
 	JLabel lblClickATitle = new JLabel("NEWS: Click a title to see the details");
 	HashMap<String, JSONObject> main = new HashMap<>();
+	private final JLabel lblPoweredByNewsapi = new JLabel("Powered by newsapi.org");
 	public static void main(String[] args) {
 		News x = new News();
-		
 	}
 
 	public News() {
@@ -52,6 +52,8 @@ public class News {
 				frame.setBounds(100, 100, 640, 459);
 				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 				ArrayList<String> newsTitles = new ArrayList<>();
+				
+
 				try {
 					JSONArray json = new JSONArray(IOUtils.toString(new URL("http://oscarmeanwell.me/stockNews.php"), Charset.forName("UTF-8")));
 					
@@ -121,6 +123,10 @@ public class News {
 				});
 				btnDone.setBounds(263, 392, 114, 25);
 				frame.getContentPane().add(btnDone);
+				lblPoweredByNewsapi.setForeground(Color.GREEN);
+				lblPoweredByNewsapi.setBounds(22, 397, 182, 15);
+				
+				frame.getContentPane().add(lblPoweredByNewsapi);
 				frame.setDefaultCloseOperation(0);
 				frame.setVisible(true);
 				
