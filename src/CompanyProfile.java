@@ -1,4 +1,6 @@
+import java.awt.Desktop;
 import java.awt.EventQueue;
+import java.net.URI;
 import java.net.URL;
 import java.nio.charset.Charset;
 
@@ -19,11 +21,13 @@ import java.awt.Label;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class CompanyProfile {
 
 	private JFrame frame;
-
+	public String gURL = ""; 
 	public static void main(String[] args) {
 		CompanyProfile x = new CompanyProfile("AAPL");
 	}
@@ -76,6 +80,19 @@ public class CompanyProfile {
 				frame.getContentPane().add(lblCity);
 				
 				JLabel lblUrl = new JLabel("City");
+				lblUrl.addMouseListener(new MouseAdapter() {
+					@Override
+					public void mouseClicked(MouseEvent e) {
+						if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
+						    try {
+								Desktop.getDesktop().browse(new URI(gURL));
+							} catch (Exception e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							} 
+						}
+					}
+				});
 				lblUrl.setBounds(12, 227, 450, 23);
 				frame.getContentPane().add(lblUrl);
 				
@@ -100,7 +117,7 @@ public class CompanyProfile {
 					lblExchange.setText("Exchange: " + json.getString("exchange"));
 					lblUrl.setText("URL: " + json.getString("url"));
 					
-					
+					gURL = json.getString("url");
 					textArea.setText(json.getString("description"));
 					
 				

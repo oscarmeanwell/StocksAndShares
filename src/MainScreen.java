@@ -1,4 +1,5 @@
 import java.awt.EventQueue;
+import java.awt.LayoutManager;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,6 +14,7 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.SwingWorker;
@@ -24,6 +26,7 @@ import org.json.JSONObject;
 import dorkbox.notify.Notify;
 import dorkbox.notify.Pos;
 import dorkbox.util.ActionHandler;
+import java.awt.Panel;
 
 public class MainScreen {
 
@@ -44,7 +47,7 @@ public class MainScreen {
 				hashMaxLevels = buildHash();
 				System.out.println(hashMaxLevels.get("ABIO").get("min"));
 				frame = new JFrame();
-				frame.setBounds(100, 100, 492, 330);
+				frame.setBounds(100, 100, 492, 454);
 				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 				//On load we need to build the hashMaxLevels hash to monitor share prices.
@@ -84,12 +87,23 @@ public class MainScreen {
 				scrollPane.setBounds(0, 0, 492, 226);
 				frame.getContentPane().add(scrollPane);
 
-				lblNewLabel = new JLabel("New label");
-				lblNewLabel.setBounds(105, 238, 66, 15);
-				frame.getContentPane().add(lblNewLabel);
-
 				JMenuBar menuBar = new JMenuBar();
+				Digital_Clock zz = new Digital_Clock();
+				zz.start();
+				zz.setVisible(true);
+				JPanel x = zz.jPanel1;
+				frame.getContentPane().add(x);
+				
+				//JPanel panel = zz.jPanel1;
+				//panel.setBounds(273, 221, 162, 50);
+				//frame.getContentPane().add(panel);
+				
+				JPanel panel_1 = zz.jPanel1;
+			
+				panel_1.setBounds(10, 238, 190, 86);
+				frame.getContentPane().add(panel_1);
 
+				//frame.getContentPane().add(zz);
 				JMenu subBar = new JMenu("Manage");
 				JMenuItem i1 = new JMenuItem("Subscriptions");
 				JMenuItem i2 = new JMenuItem("Alerts");
@@ -169,7 +183,6 @@ public class MainScreen {
 		}
 		return hashmaxMin;
 	}
-
 }
 
 class UpdateWorker extends SwingWorker<Void, Void> {
