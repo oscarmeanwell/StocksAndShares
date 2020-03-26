@@ -104,6 +104,7 @@ public class MainScreen {
 						if (mouseEvent.getClickCount() == 2) {
 							// your valueChanged overridden method 
 							System.out.println(data1[row][0]);
+							CompanyProfile cp = new CompanyProfile(data1[row][0].toString());
 							//Now get data on this company in another window
 
 						}
