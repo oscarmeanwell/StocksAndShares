@@ -10,7 +10,6 @@ public class CompanyProfile {
 
 	private JFrame frame;
 
-
 	public static void main(String[] args) {
 		CompanyProfile x = new CompanyProfile("AAPL");
 	}

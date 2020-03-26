@@ -119,6 +119,7 @@ public class MaxMin {
 				        		System.out.println("HERE TO " + toServer);
 				        		JSONObject json = new JSONObject(IOUtils.toString(new URL("http://oscarmeanwell.me:3001/saveMaxMin?usr=" + MainScreen.USERNAME + "&levels=" + toServer), Charset.forName("UTF-8")));
 								frame.setVisible(false);
+								MainScreen.hashMaxLevels = (HashMap)hashmaxMin.clone();
 				        	}
 				        }
 				        catch(Exception e) {
